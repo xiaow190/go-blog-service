@@ -37,8 +37,10 @@ func AccessLog() gin.HandlerFunc {
 			"request":  c.Request.PostForm.Encode(),
 			"response": bodyWriter.body.String(),
 		}
-		s := "access log: method: %s, status_code: %d, " + "begin_time: %d, end_time: %d"
-		global.Logger.WithFields(fields).Infof(s,
+		// 把 *gin.Context 传入日志方法中
+		s := "access log: method: %s, status_code: %d, " +
+			"begin_time: %d, end_time: %d"
+		global.Logger.WithFields(fields).Infof(c, s,
 			c.Request.Method,
 			bodyWriter.Status(),
 			beginTime,
